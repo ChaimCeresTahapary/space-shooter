@@ -4,6 +4,7 @@ import { Resources, ResourceLoader } from './resources.js'
 import { Player } from './player.js'
 import { platform } from './platform.js'    
 import { Enemy } from './enemy.js';
+import { Background } from './background.js';
 
 export class Game extends Engine {
 
@@ -22,6 +23,13 @@ export class Game extends Engine {
     }
 
     startGame() {
+        // Add scrolling background
+        const bg1 = new Background();
+        const bg2 = new Background();
+        bg2.pos.x = bg1.width; // Place second bg right after the first
+        this.add(bg1);
+        this.add(bg2);
+
         const player = new Player();
         this.add(player);
         // Define lanes (remove top and bottom lane, use only middle 3 lanes)
