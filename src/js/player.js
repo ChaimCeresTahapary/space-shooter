@@ -18,7 +18,15 @@ export class Player extends Actor {
     }
 
     handleCollision(event) {
-        // Placeholder for collision logic
+        const other = event.other;
+        // If player collides with enemy, player dies (optional)
+        if (other.constructor.name === 'Enemy') {
+            this.kill();
+        }
+        // If bullet collides with enemy, enemy dies
+        if (other.constructor.name === 'Bullet') {
+            // Do nothing for player
+        }
     }
 
     onInitialize(engine) {
