@@ -9,10 +9,11 @@ export class Player extends Actor {
     useWASD = false; // enable WASD movement for this shark
 
     constructor() {
-        super({ width: Resources.Spaceship.width * 1, height: Resources.Spaceship.height * 1 }); // Make sprite 3x bigger
-
-        this.graphics.use(Resources.Spaceship.toSprite());
-
+        super({ width: 182, height: 182 }); // Make the biker sprite even larger
+        const sprite = Resources.Biker.toSprite();
+        sprite.width = 192;
+        sprite.height = 192;
+        this.graphics.use(sprite);
         this.pos = new Vector(400, 400);
         this.vel = new Vector(0, 0);
     }
