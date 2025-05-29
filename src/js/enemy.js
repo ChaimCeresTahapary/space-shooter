@@ -11,13 +11,25 @@ export class Enemy extends Actor {
     }
 
     onPreUpdate(engine, delta) {
-        if (this.player && !this.isDead) {
-            // Move towards the player
-            const direction = this.player.pos.sub(this.pos).normalize();
-            this.vel = direction.scale(100); // Adjust speed as needed
+        if (!this.isDead) {
+            // Only move left
+            this.vel = new Vector(-100, 0); // Move left at 100 px/sec
         } else {
             this.vel = new Vector(0, 0);
         }
+    }
+
+    onInitialize(engine) {
+        this.on('collisionstart', (event) => {
+            const other = event.other?.owner;
+            // If collides with player, kill player and reset game
+            if (other && other.constructor && other.constructor.name === 'Player') {
+                other.kill();
+                setTimeout(() => {
+                    window.location.reload();
+                }, 500);
+            }
+        });
     }
 
     die() {

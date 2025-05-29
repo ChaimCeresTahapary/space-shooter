@@ -24,12 +24,24 @@ export class Game extends Engine {
     startGame() {
         const player = new Player();
         this.add(player);
-        // Spawn enemies every 2 seconds
+        // Define lanes (remove top and bottom lane, use only middle 3 lanes)
+        const laneCount = 5;
+        // Calculate all 5 lane positions
+        const allLanePositions = Array.from({length: laneCount}, (_, i) => {
+            return (i * (this.drawHeight - 40) / (laneCount - 1)) + 20; // 20px padding top/bottom
+        });
+        // Use only the middle 3 lanes (remove first and last)
+        const lanePositions = allLanePositions.slice(1, -1);
         this.enemyInterval = setInterval(() => {
-            // Spawn at random x at the top
-            const x = Math.random() * this.drawWidth;
-            const enemy = new Enemy(x, 0, player);
-            this.add(enemy);
+            // Pick a random subset of lanes (1 to lanePositions.length enemies per spawn)
+            const lanes = [...lanePositions];
+            const enemiesToSpawn = Math.floor(Math.random() * lanes.length) + 1;
+            const shuffled = lanes.sort(() => 0.5 - Math.random());
+            for (let i = 0; i < enemiesToSpawn; i++) {
+                const y = shuffled[i];
+                const enemy = new Enemy(this.drawWidth, y, player);
+                this.add(enemy);
+            }
         }, 2000);
         // Remove or comment out the platform for now if not needed
         // this.add(new platform(200, 400));

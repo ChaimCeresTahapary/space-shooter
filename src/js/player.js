@@ -36,36 +36,48 @@ export class Player extends Actor {
 
     onPreUpdate(engine, delta) {
         let xspeed = 0;
-    let yspeed = 0;
+        let yspeed = 0;
 
-    if (engine.input.keyboard.isHeld(Keys.W) || engine.input.keyboard.isHeld(Keys.Up)) {
-      yspeed = -200;
-    }
-
-    if (engine.input.keyboard.isHeld(Keys.S) || engine.input.keyboard.isHeld(Keys.Down)) {
-      yspeed = 200;
-    }
-
-    if (engine.input.keyboard.isHeld(Keys.D) || engine.input.keyboard.isHeld(Keys.Right)) {
-      xspeed = 200
-    }
-
-    if (engine.input.keyboard.isHeld(Keys.A) || engine.input.keyboard.isHeld(Keys.Left)) {
-      xspeed = -200
-    }
-
-    this.vel = new Vector(xspeed, yspeed);
-    this.graphics.flipHorizontal = (this.vel.x < 0)
-
-        // Shooting logic (spacebar)
-        if (engine.input.keyboard.isHeld(Keys.Space)) {
-            const now = Date.now();
-            if (!this.lastShotTime || now - this.lastShotTime > 250) { // 250ms cooldown
-                const bullet = new Bullet(this.pos.x + 40, this.pos.y - this.height / 3);
-                engine.currentScene.add(bullet);
-                this.lastShotTime = now;
-            }
+        if (engine.input.keyboard.isHeld(Keys.W) || engine.input.keyboard.isHeld(Keys.Up)) {
+          yspeed = -200;
         }
+
+        if (engine.input.keyboard.isHeld(Keys.S) || engine.input.keyboard.isHeld(Keys.Down)) {
+          yspeed = 200;
+        }
+
+        if (engine.input.keyboard.isHeld(Keys.D) || engine.input.keyboard.isHeld(Keys.Right)) {
+          xspeed = 200
+        }
+
+        if (engine.input.keyboard.isHeld(Keys.A) || engine.input.keyboard.isHeld(Keys.Left)) {
+          xspeed = -200
+        }
+
+        this.vel = new Vector(xspeed, yspeed);
+        this.graphics.flipHorizontal = (this.vel.x < 0)
+
+            // Shooting logic (spacebar)
+            if (engine.input.keyboard.isHeld(Keys.Space)) {
+                const now = Date.now();
+                if (!this.lastShotTime || now - this.lastShotTime > 250) { // 250ms cooldown
+                    const bullet = new Bullet(this.pos.x + 40, this.pos.y - this.height / 3);
+                    engine.currentScene.add(bullet);
+                    this.lastShotTime = now;
+                }
+            }
+
+            // Barrier logic: prevent player from going off the map on all sides
+            const minX = 0;
+            const maxX = engine.drawWidth - this.width;
+            const minY = 0;
+            const maxY = engine.drawHeight - this.height;
+            // Clamp position, but allow a small margin so bullets can reach the bottom/top fish
+            const margin = 10; // allow player to go a bit closer to the edge
+            if (this.pos.x < minX) this.pos.x = minX;
+            if (this.pos.x > maxX) this.pos.x = maxX;
+            if (this.pos.y < minY - margin) this.pos.y = minY - margin;
+            if (this.pos.y > maxY + margin) this.pos.y = maxY + margin;
     }
 
     
