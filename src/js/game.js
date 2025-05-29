@@ -21,10 +21,10 @@ export class Game extends Engine {
     }
 
     startGame() {
-        this.add(new Player(300,200));
-
-        this.add(new platform(200, 400));
-}
+        this.add(new Player());
+        // Remove or comment out the platform for now if not needed
+        // this.add(new platform(200, 400));
+    }
 }
 
 new Game()
