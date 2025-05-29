@@ -3,23 +3,22 @@ import { Resources } from './resources';
 
 export class Bullet extends Actor {
     constructor(x, y) {
-        super({ width: 20, height: 20 });
+        super({ width: 50, height: 50 });
         this.pos = new Vector(x, y);
         this.vel = new Vector(400, 0); // Move right
-        this.graphics.use(Resources.Bubble.toSprite());
+        const sprite = Resources.Wrench.toSprite();
+        sprite.width = 80;
+        sprite.height = 80;
+        this.graphics.use(sprite); // Use wrench.png for bullet
     }
     onInitialize(engine) {
         this.on("collisionstart", (event) => {
-            // Try to get the Enemy actor from the collision event
+            // Avoid dynamic import, check by name only
             const enemy = event.other?.owner;
-            // Check if it's an instance of Enemy (import Enemy for instanceof check)
-            // Use dynamic import to avoid circular dependency
-            import('./enemy.js').then(module => {
-                if (enemy instanceof module.Enemy && typeof enemy.die === 'function') {
-                    enemy.die();
-                    this.kill();
-                }
-            });
+            if (enemy && enemy.constructor && enemy.constructor.name === 'Enemy' && typeof enemy.die === 'function') {
+                enemy.die();
+                this.kill();
+            }
         });
     }
 }

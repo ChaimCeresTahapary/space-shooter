@@ -4,11 +4,10 @@ import { ImageSource, Sound, Resource, Loader } from 'excalibur'
 const Resources = {
     Spaceship: new ImageSource('images/spaceship.png'),
     Biker: new ImageSource('images/biker.png'),
-    Bubble: new ImageSource('images/bubble.png'),
+    Wrench: new ImageSource('images/wrench.png'),
     Fish: new ImageSource('images/fish.png'),
     Bones: new ImageSource('images/bones.png'),
     Achtergrond: new ImageSource('images/achtergrond.jpg'), // gebruik achtergrond.jpg
-    Wrench: new ImageSource('images/wrench.png'),
 }
 
 const ResourceLoader = new Loader()
