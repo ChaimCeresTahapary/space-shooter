@@ -2,7 +2,7 @@ import { Actor, Vector, } from 'excalibur';
 import { Resources } from './resources';
 
 export class Bullet extends Actor {
-    constructor(x, y) {
+    constructor(x, y, game) {
         super({ width: 50, height: 50 });
         this.pos = new Vector(x, y);
         this.vel = new Vector(400, 0); // Move right
@@ -10,6 +10,7 @@ export class Bullet extends Actor {
         sprite.width = 80;
         sprite.height = 80;
         this.graphics.use(sprite); // Use wrench.png for bullet
+        this.game = game; // Reference to the game for score
     }
     onInitialize(engine) {
         this.on("collisionstart", (event) => {
@@ -18,6 +19,9 @@ export class Bullet extends Actor {
             if (enemy && enemy.constructor && enemy.constructor.name === 'Enemy' && typeof enemy.die === 'function') {
                 enemy.die();
                 this.kill();
+                if (this.game && typeof this.game.addScore === 'function') {
+                    this.game.addScore(1); // Add 1 point per enemy
+                }
             }
         });
     }

@@ -22,9 +22,24 @@ export class Game extends Engine {
             }
         });
         this.score = 0;
-        this.lives = new Lives(3);
+        this.lives = new Lives(5);
         this.ui = new UI();
         this.start(ResourceLoader).then(() => this.startGame())
+    }
+
+    addScore(amount) {
+        this.score += amount;
+        if (this.ui) this.ui.updateScore(this.score);
+    }
+
+    loseLife(amount = 1) {
+        this.lives.decrease(amount);
+        if (this.ui) this.ui.setHealth(this.lives.get(), this.lives.maxLives);
+    }
+
+    gainLife(amount = 1) {
+        this.lives.increase(amount);
+        if (this.ui) this.ui.setHealth(this.lives.get(), this.lives.maxLives);
     }
 
     startGame() {
@@ -35,7 +50,8 @@ export class Game extends Engine {
         this.add(bg1);
         this.add(bg2);
 
-        const player = new Player();
+        // Pass 'this' (the Game instance) to Player
+        const player = new Player(this); // Pass Game instance to Player
         this.add(player);
         // Define lanes (remove top and bottom lane, use only middle 3 lanes)
         const laneCount = 5;
@@ -58,10 +74,13 @@ export class Game extends Engine {
         }, 2000);
         // Remove or comment out the platform for now if not needed
         // this.add(new platform(200, 400));
-
+        this.add(this.ui);
         // UI update loop
         this.on('preupdate', () => {
-            this.ui.update(this.score, this.lives.get());
+            if (this.ui) {
+                this.ui.updateScore(this.score);
+                this.ui.setHealth(this.lives.get(), this.lives.maxLives);
+            }
         });
     }
 }

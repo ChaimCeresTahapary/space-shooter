@@ -8,7 +8,7 @@ export class Player extends Actor {
     onEat = () => {} // default to empty function
     useWASD = false; // enable WASD movement for this shark
 
-    constructor() {
+    constructor(game) {
         super({ width: 182, height: 182 }); // Make the biker sprite even larger
         const sprite = Resources.Biker.toSprite();
         sprite.width = 192;
@@ -16,12 +16,16 @@ export class Player extends Actor {
         this.graphics.use(sprite);
         this.pos = new Vector(400, 400);
         this.vel = new Vector(0, 0);
+        this.game = game; // Reference to game for lives
     }
 
     handleCollision(event) {
         const other = event.other;
         // If player collides with enemy, player dies (optional)
         if (other.constructor.name === 'Enemy') {
+            if (this.game && typeof this.game.loseLife === 'function') {
+                this.game.loseLife(1);
+            }
             this.kill();
         }
         // If bullet collides with enemy, enemy dies
@@ -62,7 +66,7 @@ export class Player extends Actor {
             if (engine.input.keyboard.isHeld(Keys.Space)) {
                 const now = Date.now();
                 if (!this.lastShotTime || now - this.lastShotTime > 250) { // 250ms cooldown
-                    const bullet = new Bullet(this.pos.x + 40, this.pos.y - this.height / 3);
+                    const bullet = new Bullet(this.pos.x + 40, this.pos.y - this.height / 3, this.game);
                     engine.currentScene.add(bullet);
                     this.lastShotTime = now;
                 }
@@ -80,6 +84,4 @@ export class Player extends Actor {
             if (this.pos.y < minY - margin) this.pos.y = minY - margin;
             if (this.pos.y > maxY + margin) this.pos.y = maxY + margin;
     }
-
-    
 }
