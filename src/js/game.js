@@ -5,6 +5,8 @@ import { Player } from './player.js'
 import { platform } from './platform.js'    
 import { Enemy } from './enemy.js';
 import { Background } from './background.js';
+import { Lives } from './lives.js';
+import { UI } from './ui.js';
 
 export class Game extends Engine {
 
@@ -19,6 +21,9 @@ export class Game extends Engine {
                 gravity: new Vector(0,800)
             }
         });
+        this.score = 0;
+        this.lives = new Lives(3);
+        this.ui = new UI();
         this.start(ResourceLoader).then(() => this.startGame())
     }
 
@@ -53,6 +58,11 @@ export class Game extends Engine {
         }, 2000);
         // Remove or comment out the platform for now if not needed
         // this.add(new platform(200, 400));
+
+        // UI update loop
+        this.on('preupdate', () => {
+            this.ui.update(this.score, this.lives.get());
+        });
     }
 }
 
