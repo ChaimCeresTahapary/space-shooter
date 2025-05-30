@@ -2,37 +2,43 @@ import { ScreenElement, Label, Vector, FontUnit, Color, Actor, Font } from 'exca
 import { Resources } from './resources';
 
 export class UI extends ScreenElement {
-    scoreText;
-    healthbar;
-    barBackground;
+    healthbarSegments = [];
     maxLives = 5;
+    scoreText;
+
+    constructor(maxLives = 5) {
+        super();
+        this.maxLives = maxLives;
+    }
 
     onInitialize(engine) {
-        // Score label
         this.scoreText = new Label({
             text: 'Score: 0',
             pos: new Vector(20, 10),
-            font: new Font({
-                family: 'Arial',
-                size: 20,
-                unit: FontUnit.Px,
-                color: Color.White
-            })
+            font: new Font({ family: 'Arial', size: 20, unit: FontUnit.Px, color: Color.White })
         });
-        this.scoreText.z = 200;
         this.addChild(this.scoreText);
 
-        // Healthbar background (drawn first, so it's behind the bar)
-        this.barBackground = new Actor({ x: 20, y: 40, width: 200, height: 20, color: Color.fromRGB(255,255,255,0.7), anchor: Vector.Zero });
-        this.barBackground.z = 100;
-        this.addChild(this.barBackground);
-        // Healthbar foreground
-        this.healthbar = new Actor({ x: 20, y: 40, width: 200, height: 20, color: Color.Green, anchor: Vector.Zero });
-        this.healthbar.z = 101;
-        this.addChild(this.healthbar);
-        this.healthbar.scale = new Vector(1, 1);
-        this.healthbar.visible = true;
-        this.barBackground.visible = true;
+        const segmentWidth = 40, segmentHeight = 20, startX = 20, startY = 40;
+        for (let i = 0; i < this.maxLives; i++) {
+            const segment = new Actor({
+                x: startX + i * (segmentWidth + 4),
+                y: startY,
+                width: segmentWidth,
+                height: segmentHeight,
+                anchor: Vector.Zero
+            });
+            const sprite = Resources.Health?.toSprite?.();
+            if (sprite) {
+                sprite.width = segmentWidth;
+                sprite.height = segmentHeight;
+                segment.graphics.use(sprite);
+            } else {
+                segment.color = Color.Green;
+            }
+            this.addChild(segment);
+            this.healthbarSegments.push(segment);
+        }
     }
 
     updateScore(score) {
@@ -40,13 +46,8 @@ export class UI extends ScreenElement {
     }
 
     setHealth(current, max) {
-        if (!this.healthbar || !this.barBackground) return;
-        let percent = Math.max(0, Math.min(1, current / max));
-        this.healthbar.scale = new Vector(Math.max(percent, 0.01), 1);
-        this.healthbar.visible = true;
-        this.barBackground.visible = true;
-        if (percent > 0.6) this.healthbar.color = Color.Green;
-        else if (percent > 0.3) this.healthbar.color = Color.Yellow;
-        else this.healthbar.color = Color.Red;
+        for (let i = 0; i < this.healthbarSegments.length; i++) {
+            this.healthbarSegments[i].visible = i < current;
+        }
     }
 }

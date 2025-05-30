@@ -1,34 +1,24 @@
-import { Actor, Vector } from 'excalibur';
+import { Actor, Vector, Color, Rectangle } from 'excalibur';
 import { Resources } from './resources';
 
 export class HealthPack extends Actor {
-    constructor(x, y, game, laneEnemies) {
+    isUsed = false;
+
+    constructor(x, y, game) {
         super({ width: 80, height: 80 });
         this.pos = new Vector(x, y);
         this.game = game;
-        this.laneEnemies = laneEnemies;
-        const sprite = Resources.Health.toSprite();
-        sprite.width = 80;
-        sprite.height = 80;
-        this.graphics.use(sprite);
-        this.isUsed = false;
-    }
-
-    onPreUpdate(engine, delta) {
-        this.vel = new Vector(-100, 0);
-        if (this.laneEnemies) {
-            for (const enemy of this.laneEnemies) {
-                if (enemy && !enemy.isDead && this.pos.distance(enemy.pos) < 80) {
-                    this.pos.y += 50;
-                }
-            }
-        }
-        if (this.pos.x + 80 < 0) {
-            this.kill();
-        }
     }
 
     onInitialize(engine) {
+        let sprite = Resources.Health?.toSprite?.();
+        if (sprite) {
+            sprite.width = 80;
+            sprite.height = 80;
+            this.graphics.use(sprite);
+        } else {
+            this.graphics.use(new Rectangle({ width: 80, height: 80, color: Color.Red }));
+        }
         this.on('collisionstart', (event) => {
             const other = event.other?.owner;
             if (!this.isUsed && other && other.constructor && other.constructor.name === 'Player') {
@@ -39,5 +29,12 @@ export class HealthPack extends Actor {
                 this.kill();
             }
         });
+    }
+
+    onPreUpdate(engine, delta) {
+        this.vel = new Vector(-100, 0);
+        if (this.pos.x + 80 < 0) {
+            this.kill();
+        }
     }
 }
