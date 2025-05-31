@@ -7,6 +7,7 @@ import { Background } from './background.js';
 import { Lives } from './lives.js';
 import { UI } from './ui.js';
 import { HealthPack } from './healthpack.js';
+import { AlienEnemy } from './alienEnemy.js';
 
 
 export class Game extends Engine {
@@ -74,7 +75,12 @@ export class Game extends Engine {
                 const lanes = [...lanePositions];
                 const shuffled = lanes.sort(() => 0.5 - Math.random());
                 const y = shuffled[0];
-                const enemy = new Enemy(this.drawWidth, y);
+                let enemy;
+                if (Math.random() < 0.5) {
+                    enemy = new Enemy(this.drawWidth, y, 80, 80, Resources.Fish.toSprite(), -150); // Fish
+                } else {
+                    enemy = new AlienEnemy(this.drawWidth, y); // Alien
+                }
                 this.add(enemy);
             },
             interval: 2500,
@@ -115,8 +121,13 @@ export class Game extends Engine {
             }
             // Remove off-screen enemies
             this.currentScene.actors.forEach(actor => {
-                if (actor instanceof Enemy && actor.pos.x + actor.width < 0) {
-                    actor.kill();
+                if (
+                    actor instanceof Enemy ||
+                    actor instanceof AlienEnemy
+                ) {
+                    if (actor.pos.x + actor.width < 0) {
+                        actor.kill();
+                    }
                 }
             });
         });

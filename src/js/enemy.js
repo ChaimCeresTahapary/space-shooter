@@ -1,15 +1,17 @@
 import { Actor, Vector } from 'excalibur';
-import { Resources } from './resources';
+import { Resources } from './resources.js';
 import { Player } from './player.js';
 
 export class Enemy extends Actor {
     isDead = false;
 
-    constructor(x, y) {
-        super({ width: 40, height: 40 });
+    constructor(x, y, width = 40, height = 40, sprite = Resources.Fish.toSprite(), speed = -100) {
+        super({ width, height });
         this.pos = new Vector(x, y);
-        this.graphics.use(Resources.Fish.toSprite());
-        this.vel = new Vector(-100, 0); // Move left across the screen
+        sprite.width = width;
+        sprite.height = height;
+        this.graphics.use(sprite);
+        this.vel = new Vector(speed, 0);
     }
 
     onInitialize(engine) {
