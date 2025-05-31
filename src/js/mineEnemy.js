@@ -1,8 +1,8 @@
 import { Enemy } from './enemy.js';
 import { Resources } from './resources.js';
 
-export class AlienEnemy extends Enemy {
+export class MineEnemy extends Enemy {
     constructor(x, y) {
-        super(x, y, 100, 100, Resources.Alien.toSprite(), -320);
+        super(x, y, 60, 60, Resources.Mine.toSprite(), -200);
     }
 }

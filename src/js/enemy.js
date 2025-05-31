@@ -5,7 +5,7 @@ import { Player } from './player.js';
 export class Enemy extends Actor {
     isDead = false;
 
-    constructor(x, y, width = 40, height = 40, sprite = Resources.Fish.toSprite(), speed = -100) {
+    constructor(x, y, width = 40, height = 40, sprite = Resources.Fish.toSprite(), speed = -150) {
         super({ width, height });
         this.pos = new Vector(x, y);
         sprite.width = width;
@@ -27,6 +27,6 @@ export class Enemy extends Actor {
         if (this.isDead) return;
         this.isDead = true;
         this.graphics.use(Resources.Ghost.toSprite());
-        setTimeout(() => this.kill(), 500);
+        setTimeout(() => this.kill(), 200);
     }
 }

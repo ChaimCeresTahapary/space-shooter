@@ -8,6 +8,7 @@ import { Lives } from './lives.js';
 import { UI } from './ui.js';
 import { HealthPack } from './healthpack.js';
 import { AlienEnemy } from './alienEnemy.js';
+import { MineEnemy } from './mineEnemy.js'; // Import MineEnemy
 
 
 export class Game extends Engine {
@@ -76,10 +77,13 @@ export class Game extends Engine {
                 const shuffled = lanes.sort(() => 0.5 - Math.random());
                 const y = shuffled[0];
                 let enemy;
-                if (Math.random() < 0.5) {
+                const rand = Math.random();
+                if (rand < 0.33) {
                     enemy = new Enemy(this.drawWidth, y, 80, 80, Resources.Fish.toSprite(), -150); // Fish
-                } else {
+                } else if (rand < 0.66) {
                     enemy = new AlienEnemy(this.drawWidth, y); // Alien
+                } else {
+                    enemy = new MineEnemy(this.drawWidth, y); // Mine
                 }
                 this.add(enemy);
             },
