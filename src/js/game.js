@@ -18,7 +18,7 @@ export class Game extends Engine {
             maxFps: 60,
             displayMode: DisplayMode.FitScreen,
             physics: {
-                solver:SolverStrategy.Realistic,
+                solver:SolverStrategy.Arcade,
                 gravity: new Vector(0,800)
             }
         });
@@ -73,12 +73,27 @@ export class Game extends Engine {
             this.add(enemy);
         }, 2500); // Spawn every 2.5 seconds instead of 2
 
-        // UI update loop for healthbar and score
+        // UI update loop for healthbar and score (only update if changed)
+        let lastHealth = this.lives.get();
+        let lastScore = this.#score;
         this.on('preupdate', (engine, delta) => {
             if (this.ui && this.lives) {
-                this.ui.setHealth(this.lives.get(), this.lives.maxLives);
-                this.ui.updateScore(this.#score);
+                const currentHealth = this.lives.get();
+                if (currentHealth !== lastHealth) {
+                    this.ui.setHealth(currentHealth, this.lives.maxLives);
+                    lastHealth = currentHealth;
+                }
+                if (this.#score !== lastScore) {
+                    this.ui.updateScore(this.#score);
+                    lastScore = this.#score;
+                }
             }
+            // Remove off-screen enemies
+            this.currentScene.actors.forEach(actor => {
+                if (actor instanceof Enemy && actor.pos.x + actor.width < 0) {
+                    actor.kill();
+                }
+            });
         });
     }
 }
