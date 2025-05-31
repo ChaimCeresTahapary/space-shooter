@@ -7,9 +7,10 @@ const Resources = {
     Biker: new ImageSource('images/biker.png'),
     Wrench: new ImageSource('images/wrench.png'),
     Fish: new ImageSource('images/fish.png'),
-    Bones: new ImageSource('images/bones.png'),
     Achtergrond: new ImageSource('images/achtergrond.jpg'), // gebruik achtergrond.jpg
     Health: new ImageSource('images/health.png'), // health pack image
+    Ghost: new ImageSource('images/ghost.png'),
+    
 }
 
 const ResourceLoader = new Loader()

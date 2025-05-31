@@ -26,7 +26,7 @@ export class Enemy extends Actor {
     die() {
         if (this.isDead) return;
         this.isDead = true;
-        this.graphics.use(Resources.Bones.toSprite());
+        this.graphics.use(Resources.Ghost.toSprite());
         setTimeout(() => this.kill(), 500);
     }
 }
