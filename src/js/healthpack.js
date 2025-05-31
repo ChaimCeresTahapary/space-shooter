@@ -21,7 +21,7 @@ export class HealthPack extends Actor {
         }
         this.on('collisionstart', (event) => {
             const other = event.other?.owner;
-            if (!this.isUsed && other && other.constructor && other.constructor.name === 'Player') {
+            if (!this.isUsed && other instanceof import('./player.js').Player) {
                 this.isUsed = true;
                 if (this.game && typeof this.game.gainLife === 'function') {
                     this.game.gainLife(1);

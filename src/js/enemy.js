@@ -19,7 +19,7 @@ export class Enemy extends Actor {
         this.on('collisionstart', (event) => {
             const other = event.other?.owner;
             // Only affect Player class
-            if (other && other.constructor && other.constructor.name === 'Player') {
+            if (other instanceof import('./player.js').Player) {
                 if (other.game && typeof other.game.loseLife === 'function') {
                     other.game.loseLife(1);
                     // Game.js loseLife updates UI
