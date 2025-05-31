@@ -31,8 +31,12 @@ export class Game extends Engine {
         this.start(ResourceLoader).then(() => this.startGame())
     }
 
-    addScore(amount) {
-        this.#score += amount;
+    getScore() {
+        return this.#score;
+    }
+
+    addScore(points) {
+        this.#score += points;
         this.ui.updateScore(this.#score);
     }
 

@@ -11,11 +11,9 @@ export class MineEnemy extends Enemy {
         this.on('collisionstart', (event) => {
             const other = event.other?.owner;
             if (other instanceof Player) {
-                // 2 levens eraf
                 if (other.game && typeof other.game.loseLife === 'function') {
                     other.game.loseLife(3);
                 }
-                // Optioneel: snelheid verlagen
                 other.vel.x *= 0.5;
                 setTimeout(() => {
                     other.vel.x *= 2;

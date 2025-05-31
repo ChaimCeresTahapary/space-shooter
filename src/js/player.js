@@ -5,6 +5,8 @@ import { Resources } from './resources.js';
 export class Player extends Actor {
     #speed = 300;
     #lastShotTime = 0;
+    #lives;
+    #score;
 
     constructor(game) {
         super({ width: 182, height: 182 });
@@ -14,6 +16,8 @@ export class Player extends Actor {
         this.graphics.use(sprite);
         this.pos = new Vector(400, 400);
         this.vel = Vector.Zero;
+        this.#lives = 5;
+        this.#score = 0;
         this.game = game;
         this.body.collisionType = CollisionType.Active;
         this.body.useGravity = false; // <-- Add this line
@@ -51,4 +55,23 @@ export class Player extends Actor {
         this.pos.x = Math.max(halfWidth, Math.min(engine.drawWidth - halfWidth, this.pos.x));
         this.pos.y = Math.max(halfHeight, Math.min(engine.drawHeight - halfHeight, this.pos.y));
     }
+
+    getLives() {
+        return this.#lives;
+    }
+
+    loseLife(amount = 1) {
+        this.#lives -= amount;
+        if (this.#lives < 0) this.#lives = 0;
+    }
+
+    addScore(points) {
+        this.#score += points;
+    }
+
+    getScore() {
+        return this.#score;
+    }
+
+    // ...andere player-methodes...
 }

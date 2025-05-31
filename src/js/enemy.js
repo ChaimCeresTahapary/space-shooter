@@ -3,7 +3,7 @@ import { Resources } from './resources.js';
 import { Player } from './player.js';
 
 export class Enemy extends Actor {
-    isDead = false;
+    #isDead = false; // privé
 
     constructor(x, y, width = 40, height = 40, sprite = Resources.Fish.toSprite(), speed = -200) {
         super({ width, height });
@@ -24,9 +24,13 @@ export class Enemy extends Actor {
     }
 
     die() {
-        if (this.isDead) return;
-        this.isDead = true;
+        if (this.#isDead) return;
+        this.#isDead = true;
         this.graphics.use(Resources.Ghost.toSprite());
         setTimeout(() => this.kill(), 200);
+    }
+
+    isDead() {
+        return this.#isDead;
     }
 }

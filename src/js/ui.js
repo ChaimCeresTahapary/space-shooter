@@ -1,14 +1,18 @@
-import { ScreenElement, Label, Vector, FontUnit, Color, Actor, Font } from 'excalibur';
+import { Actor, Label, Vector, FontUnit, Color, Font } from 'excalibur';
 import { Resources } from './resources';
 
-export class UI extends ScreenElement {
+export class UI extends Actor {
+    #maxLives;
+    #currentHealth;
+    #score;
     healthbarSegments = [];
-    maxLives = 5;
     scoreText;
 
     constructor(maxLives = 5) {
         super();
-        this.maxLives = maxLives;
+        this.#maxLives = maxLives;
+        this.#currentHealth = maxLives;
+        this.#score = 0;
     }
 
     onInitialize(engine) {
@@ -20,7 +24,7 @@ export class UI extends ScreenElement {
         this.addChild(this.scoreText);
 
         const segmentWidth = 40, segmentHeight = 20, startX = 20, startY = 40;
-        for (let i = 0; i < this.maxLives; i++) {
+        for (let i = 0; i < this.#maxLives; i++) {
             const segment = new Actor({
                 x: startX + i * (segmentWidth + 4),
                 y: startY,
@@ -41,11 +45,10 @@ export class UI extends ScreenElement {
         }
     }
 
-    updateScore(score) {
-        if (this.scoreText) this.scoreText.text = `Score: ${score}`;
-    }
-
     setHealth(current, max) {
+        this.#currentHealth = current;
+        this.#maxLives = max;
+
         // Clamp current to max
         current = Math.max(0, Math.min(current, max));
         for (let i = 0; i < this.healthbarSegments.length; i++) {
@@ -65,5 +68,22 @@ export class UI extends ScreenElement {
                 this.healthbarSegments[i].color = Color.Gray;
             }
         }
+    }
+
+    updateScore(score) {
+        this.#score = score;
+        if (this.scoreText) this.scoreText.text = `Score: ${score}`;
+    }
+
+    getHealth() {
+        return this.#currentHealth;
+    }
+
+    getMaxLives() {
+        return this.#maxLives;
+    }
+
+    getScore() {
+        return this.#score;
     }
 }

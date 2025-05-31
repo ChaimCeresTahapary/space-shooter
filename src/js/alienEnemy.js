@@ -11,7 +11,6 @@ export class AlienEnemy extends Enemy {
         this.on('collisionstart', (event) => {
             const other = event.other?.owner;
             if (other instanceof Player) {
-                // 3 levens eraf
                 if (other.game && typeof other.game.loseLife === 'function') {
                     other.game.loseLife(2);
                 }
