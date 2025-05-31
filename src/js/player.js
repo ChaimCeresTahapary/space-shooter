@@ -1,4 +1,4 @@
-import { Actor, Vector, Keys } from 'excalibur';
+import { Actor, Vector, Keys, CollisionType } from 'excalibur';
 import { Bullet } from './Bullet.js';
 import { Resources } from './resources.js';
 
@@ -15,6 +15,8 @@ export class Player extends Actor {
         this.pos = new Vector(400, 400);
         this.vel = Vector.Zero;
         this.game = game;
+        this.body.collisionType = CollisionType.Active;
+        this.body.useGravity = false; // <-- Add this line
     }
 
     onInitialize(engine) {
@@ -42,6 +44,11 @@ export class Player extends Actor {
                 this.#lastShotTime = now;
             }
         }
-        // Clamp position logic can be added here
+
+        // Clamp position so player stays on screen
+        const halfWidth = this.width / 2;
+        const halfHeight = this.height / 1.2;
+        this.pos.x = Math.max(halfWidth, Math.min(engine.drawWidth - halfWidth, this.pos.x));
+        this.pos.y = Math.max(halfHeight, Math.min(engine.drawHeight - halfHeight, this.pos.y));
     }
 }

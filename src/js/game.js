@@ -6,6 +6,7 @@ import { Enemy } from './enemy.js';
 import { Background } from './background.js';
 import { Lives } from './lives.js';
 import { UI } from './ui.js';
+import { HealthPack } from './healthpack.js';
 
 
 export class Game extends Engine {
@@ -81,6 +82,21 @@ export class Game extends Engine {
         });
         this.add(enemyTimer);
         enemyTimer.start();
+
+        // Voeg healthpack toe op een random lane, bijvoorbeeld elke 10 seconden
+        const healthPackTimer = new Timer({
+            fcn: () => {
+                const lanes = [...lanePositions];
+                const shuffled = lanes.sort(() => 0.5 - Math.random());
+                const y = shuffled[0];
+                const healthPack = new HealthPack(this.drawWidth, y, this);
+                this.add(healthPack);
+            },
+            interval: 10000, // elke 10 seconden
+            repeats: true
+        });
+        this.add(healthPackTimer);
+        healthPackTimer.start();
 
         // UI update loop for healthbar and score (only update if changed)
         let lastHealth = this.lives.get();

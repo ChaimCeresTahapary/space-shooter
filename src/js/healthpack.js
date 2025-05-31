@@ -12,7 +12,7 @@ export class HealthPack extends Actor {
     }
 
     onInitialize(engine) {
-        let sprite = Resources.Health?.toSprite?.();
+        let sprite = Resources.Health.toSprite?.();
         if (sprite) {
             sprite.width = 75;
             sprite.height = 75;
