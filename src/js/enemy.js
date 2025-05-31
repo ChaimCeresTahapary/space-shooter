@@ -5,7 +5,7 @@ import { Player } from './player.js';
 export class Enemy extends Actor {
     isDead = false;
 
-    constructor(x, y, width = 40, height = 40, sprite = Resources.Fish.toSprite(), speed = -150) {
+    constructor(x, y, width = 40, height = 40, sprite = Resources.Fish.toSprite(), speed = -200) {
         super({ width, height });
         this.pos = new Vector(x, y);
         sprite.width = width;

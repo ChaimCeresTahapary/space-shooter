@@ -71,21 +71,25 @@ export class Game extends Engine {
         });
         const lanePositions = allLanePositions.slice(1, -1);
 
+        const enemiesPerWave = 3; // aantal enemies per spawn
+
         const enemyTimer = new Timer({
             fcn: () => {
-                const lanes = [...lanePositions];
-                const shuffled = lanes.sort(() => 0.5 - Math.random());
-                const y = shuffled[0];
-                let enemy;
-                const rand = Math.random();
-                if (rand < 0.33) {
-                    enemy = new Enemy(this.drawWidth, y, 80, 80, Resources.Fish.toSprite(), -150); // Fish
-                } else if (rand < 0.66) {
-                    enemy = new AlienEnemy(this.drawWidth, y); // Alien
-                } else {
-                    enemy = new MineEnemy(this.drawWidth, y); // Mine
+                // Shuffle lanes zodat je geen dubbele lane pakt
+                const lanes = [...lanePositions].sort(() => 0.5 - Math.random());
+                for (let i = 0; i < enemiesPerWave; i++) {
+                    const y = lanes[i];
+                    let enemy;
+                    const rand = Math.random();
+                    if (rand < 0.33) {
+                        enemy = new Enemy(this.drawWidth, y, 80, 80, Resources.Fish.toSprite(), -150); // Fish
+                    } else if (rand < 0.66) {
+                        enemy = new AlienEnemy(this.drawWidth, y); // Alien
+                    } else {
+                        enemy = new MineEnemy(this.drawWidth, y); // Mine
+                    }
+                    this.add(enemy);
                 }
-                this.add(enemy);
             },
             interval: 2500,
             repeats: true
@@ -127,7 +131,8 @@ export class Game extends Engine {
             this.currentScene.actors.forEach(actor => {
                 if (
                     actor instanceof Enemy ||
-                    actor instanceof AlienEnemy
+                    actor instanceof AlienEnemy ||
+                    actor instanceof MineEnemy
                 ) {
                     if (actor.pos.x + actor.width < 0) {
                         actor.kill();
