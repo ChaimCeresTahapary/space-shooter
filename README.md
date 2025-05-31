@@ -1,6 +1,6 @@
 # Excalibur Startproject 2025
 
-- Vanaf de HR repository: klik op ***USE THIS TEMPLATE***. Kies jouw eigen github account. 
+- Vanaf de HR repository: klik op **_USE THIS TEMPLATE_**. Kies jouw eigen github account.
 - Kopieer de `git url` van jouw eigen repository (dit vind je onder de "code" button).
 - Open VS Code. Klik op "file" en kies "clone repository".
 - Npm start Vite met een eigen webserver, dus sla het project NIET op in je XAMPP of HERD folder waar al een webserver draait.
@@ -10,16 +10,20 @@
 
 ### Kies een resolutie
 
-***widescreen 16/9***
+**_widescreen 16/9_**
+
 - 640 × 360
 - 800 x 450
 - 1280 x 720
 
-***retro 4/3***
+**_retro 4/3_**
+
 - 512 × 384
 - 640 × 480
 - 800 × 600
 
 ### Bewerk deze readme file
+
+Welkom bij mijn game het is een motorcycle space shooter
 
 Verwijder deze instructies, plaats hier een beschrijving van jouw game.
