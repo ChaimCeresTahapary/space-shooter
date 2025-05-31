@@ -63,16 +63,15 @@ export class Game extends Engine {
             return (i * (this.drawHeight - 40) / (laneCount - 1)) + 20;
         });
         const lanePositions = allLanePositions.slice(1, -1);
+        // Reduce spawn frequency and number of enemies per spawn
         this.enemyInterval = setInterval(() => {
             const lanes = [...lanePositions];
-            const enemiesToSpawn = Math.floor(Math.random() * lanes.length) + 1;
+            // Only spawn 1 enemy at a time
             const shuffled = lanes.sort(() => 0.5 - Math.random());
-            for (let i = 0; i < enemiesToSpawn; i++) {
-                const y = shuffled[i];
-                const enemy = new Enemy(this.drawWidth, y, player);
-                this.add(enemy);
-            }
-        }, 2000);
+            const y = shuffled[0];
+            const enemy = new Enemy(this.drawWidth, y, player);
+            this.add(enemy);
+        }, 2500); // Spawn every 2.5 seconds instead of 2
 
         // UI update loop for healthbar and score
         this.on('preupdate', (engine, delta) => {
