@@ -1,7 +1,4 @@
 export class Lives {
-    lives;
-    maxLives;
-
     constructor(startLives = 3) {
         this.lives = startLives;
         this.maxLives = startLives;
@@ -17,10 +14,5 @@ export class Lives {
 
     get() {
         return this.lives;
-    }
-
-    reset(startLives = 3) {
-        this.lives = startLives;
-        this.maxLives = startLives;
     }
 }

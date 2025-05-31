@@ -1,5 +1,5 @@
 import { Actor, Vector, Keys } from 'excalibur';
-import { Bullet } from './bullet.js';
+import { Bullet } from './Bullet.js';
 import { Resources } from './resources.js';
 
 export class Player extends Actor {

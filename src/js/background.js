@@ -8,7 +8,7 @@ export class Background extends Actor {
             y: 0,
             width: 1280, // match game width
             height: 720,  // match game height
-            anchor: { x: 0, y: 0 }
+            anchor: new Vector(0, 0)
         });
         // Stretch the sprite to fit the screen
         const sprite = Resources.Achtergrond.toSprite();
@@ -25,3 +25,4 @@ export class Background extends Actor {
         }
     }
 }
+// This class creates a background that scrolls left across the screen. When it goes completely off-screen, it resets to the right side, creating a continuous scrolling effect. You can add this class to your game scene to enhance the visual experience. If you have any further questions or need additional features, feel free to ask!

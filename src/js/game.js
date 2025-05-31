@@ -1,11 +1,12 @@
 import '../css/style.css'
-import { Engine, Vector, DisplayMode, SolverStrategy } from "excalibur";
+import { Engine, Vector, DisplayMode, SolverStrategy, Timer } from "excalibur";
 import { Resources, ResourceLoader } from './resources.js';
 import { Player } from './player.js';
 import { Enemy } from './enemy.js';
 import { Background } from './background.js';
 import { Lives } from './lives.js';
 import { UI } from './ui.js';
+
 
 export class Game extends Engine {
     #score = 0;
@@ -35,6 +36,9 @@ export class Game extends Engine {
     loseLife(amount = 1) {
         this.lives.decrease(amount);
         this.ui.setHealth(this.lives.get(), this.lives.maxLives);
+        if (this.lives.get() <= 0) {
+            setTimeout(() => window.location.reload(), 1000);
+        }
     }
 
     gainLife(amount = 1) {
@@ -57,21 +61,26 @@ export class Game extends Engine {
         // Add UI
         this.add(this.ui);
 
-        // Enemy spawn logic (already restored)
+        // Enemy spawn logic using Timer
         const laneCount = 5;
         const allLanePositions = Array.from({length: laneCount}, (_, i) => {
             return (i * (this.drawHeight - 40) / (laneCount - 1)) + 20;
         });
         const lanePositions = allLanePositions.slice(1, -1);
-        // Reduce spawn frequency and number of enemies per spawn
-        this.enemyInterval = setInterval(() => {
-            const lanes = [...lanePositions];
-            // Only spawn 1 enemy at a time
-            const shuffled = lanes.sort(() => 0.5 - Math.random());
-            const y = shuffled[0];
-            const enemy = new Enemy(this.drawWidth, y, player);
-            this.add(enemy);
-        }, 2500); // Spawn every 2.5 seconds instead of 2
+
+        const enemyTimer = new Timer({
+            fcn: () => {
+                const lanes = [...lanePositions];
+                const shuffled = lanes.sort(() => 0.5 - Math.random());
+                const y = shuffled[0];
+                const enemy = new Enemy(this.drawWidth, y);
+                this.add(enemy);
+            },
+            interval: 2500,
+            repeats: true
+        });
+        this.add(enemyTimer);
+        enemyTimer.start();
 
         // UI update loop for healthbar and score (only update if changed)
         let lastHealth = this.lives.get();

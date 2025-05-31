@@ -46,10 +46,11 @@ export class UI extends ScreenElement {
     }
 
     setHealth(current, max) {
+        // Clamp current to max
+        current = Math.max(0, Math.min(current, max));
         for (let i = 0; i < this.healthbarSegments.length; i++) {
             if (i < current) {
                 this.healthbarSegments[i].visible = true;
-                // Use normal health.png sprite
                 const sprite = Resources.Health?.toSprite?.();
                 if (sprite) {
                     sprite.width = this.healthbarSegments[i].width;
@@ -60,8 +61,7 @@ export class UI extends ScreenElement {
                 }
             } else {
                 this.healthbarSegments[i].visible = true;
-                // Use a gray rectangle for lost health
-                this.healthbarSegments[i].graphics.use(null); // Remove sprite if present
+                this.healthbarSegments[i].graphics.use(null);
                 this.healthbarSegments[i].color = Color.Gray;
             }
         }
