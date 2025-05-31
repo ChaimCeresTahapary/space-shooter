@@ -1,29 +1,36 @@
-# Excalibur Startproject 2025
+# Motorcycle Space(land) Shooter
 
-- Vanaf de HR repository: klik op **_USE THIS TEMPLATE_**. Kies jouw eigen github account.
-- Kopieer de `git url` van jouw eigen repository (dit vind je onder de "code" button).
-- Open VS Code. Klik op "file" en kies "clone repository".
-- Npm start Vite met een eigen webserver, dus sla het project NIET op in je XAMPP of HERD folder waar al een webserver draait.
-- Typ `npm install` en `npm run dev` in de terminal in VS Code.
-- Installeer de [Chrome Excalibur Debugger](https://chromewebstore.google.com/detail/excalibur-dev-tools/dinddaeielhddflijbbcmpefamfffekc)
-- [Bekijk het instructie filmpje!](https://youtu.be/UIVpe4L5_P4)
+Welkom bij **Motorcycle Space Shooter**! In deze snelle arcade-actiegame bestuur je een futuristische motor door de ruimte(land) en neem je het op tegen allerlei vijandige wezens en obstakels.
 
-### Kies een resolutie
+## Over het spel
 
-**_widescreen 16/9_**
+Rijd met je motor door gevaarlijk land, ontwijk mijnen en vijanden, en schiet alles uit de weg wat je tegenkomt. Verzamel health packs om langer te overleven en probeer een zo hoog mogelijke score te halen. Elke vijand heeft zijn eigen gedrag en effect op jouw motor:
 
-- 640 × 360
-- 800 x 450
-- 1280 x 720
+- **The Flyin Space Fish**: standaard vijand, kost je 1 leven bij botsing.
+- **Alien**: gevaarlijke vijand, kost je 2 levens bij botsing.
+- **Mine**: explosieve bom, kost je 3 levens.
 
-**_retro 4/3_**
+Gebruik je reflexen om te overleven, verbeter je highscore en ontdek hoe lang jij het volhoudt in deze intergalactische race!
 
-- 512 × 384
-- 640 × 480
-- 800 × 600
+## Besturing
 
-### Bewerk deze readme file
+- **Pijltjestoetsen / WASD**: Beweeg je motor
+- **Spatiebalk**: Schiet
 
-Welkom bij mijn game het is een motorcycle space shooter
+## Features
 
-Verwijder deze instructies, plaats hier een beschrijving van jouw game.
+- Meerdere soorten vijanden met dood animatie
+- health packs
+- Score- en levenssysteem
+- Retro pixel-art stijl
+
+## Game specificaties
+
+- **Resolutie:** 1280x720 pixels (FitScreen)
+- **Engine:** Excalibur.js (zonder ex. namespace, met ES modules)
+- **Platform:** HTML5 (getest met Vite)
+- **Besturing:** Keyboard (pijltjestoetsen/WASD + spatiebalk)
+- **Gameplay:** Arcade shooter met lanes, waves en power-ups
+- **Doel:** Overleef zo lang mogelijk en behaal een hoge score
+
+Veel plezier met spelen!
