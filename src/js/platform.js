@@ -1,19 +1,21 @@
 import { Actor, CollisionType, Color } from "excalibur";
 
-export class Platform extends Actor {
+export class platform extends Actor {
     constructor(x, y, width, height) {
         super({
             x, y,
-            width: width || 3000,
-            height: height || 50,
+            width: 3000,
+            height: 50,
             color: Color.Yellow
         });
+        
     }
-
-    static addBarriers(engine) {
+    onInitialize(engine) {
+        this.body.collisionType = CollisionType.Fixed;
+        // Add visible barriers to keep the player inside the map (for debugging)
         // Left barrier
         const leftBarrier = new Actor({
-            x: 0,
+            x: 10,
             y: engine.drawHeight / 2,
             width: 20,
             height: engine.drawHeight,
@@ -21,10 +23,9 @@ export class Platform extends Actor {
         });
         leftBarrier.body.collisionType = CollisionType.Fixed;
         engine.add(leftBarrier);
-
         // Right barrier
         const rightBarrier = new Actor({
-            x: engine.drawWidth,
+            x: engine.drawWidth - 10,
             y: engine.drawHeight / 2,
             width: 20,
             height: engine.drawHeight,
@@ -32,22 +33,20 @@ export class Platform extends Actor {
         });
         rightBarrier.body.collisionType = CollisionType.Fixed;
         engine.add(rightBarrier);
-
         // Top barrier
         const topBarrier = new Actor({
             x: engine.drawWidth / 2,
-            y: 0,
+            y: 10,
             width: engine.drawWidth,
             height: 20,
             color: Color.Red
         });
         topBarrier.body.collisionType = CollisionType.Fixed;
         engine.add(topBarrier);
-
         // Bottom barrier
         const bottomBarrier = new Actor({
             x: engine.drawWidth / 2,
-            y: engine.drawHeight,
+            y: engine.drawHeight - 10,
             width: engine.drawWidth,
             height: 20,
             color: Color.Red
@@ -55,4 +54,5 @@ export class Platform extends Actor {
         bottomBarrier.body.collisionType = CollisionType.Fixed;
         engine.add(bottomBarrier);
     }
+
 }
