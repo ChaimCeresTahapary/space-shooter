@@ -13,7 +13,7 @@ import { MineEnemy } from './mineEnemy.js'; // Import MineEnemy
 
 export class Game extends Engine {
     #score = 0;
-    #isDead = false;
+    
 
     constructor() {
         super({ 
@@ -60,10 +60,12 @@ export class Game extends Engine {
         bg2.pos.x = bg1.width; // Place second bg right after the first
         this.add(bg1);
         this.add(bg2);
+        
 
         // Add player
         const player = new Player(this);
         this.add(player);
+        
 
         // Add UI
         this.add(this.ui);
