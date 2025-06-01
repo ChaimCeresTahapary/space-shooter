@@ -3,7 +3,6 @@ import { Bullet } from './Bullet.js';
 import { Resources } from './resources.js';
 
 export class Player extends Actor {
-    #speed = 300;
     #lastShotTime = 0;
     #lives;
     #score;
